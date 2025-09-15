@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { ColorProperties } from 'react-native-reanimated/lib/typescript/Colors';
 
 export default function TabLayout(){
     return(
@@ -14,7 +15,7 @@ export default function TabLayout(){
             },
         }}
         >
-            <Tabs.Screen name="index"
+            <Tabs.Screen name="home-page"
             options={{
                 title:'Home',
                 tabBarIcon: ({color,focused}) => (
@@ -22,9 +23,17 @@ export default function TabLayout(){
                 ),
             }}
             />
-            <Tabs.Screen name="about" 
+            <Tabs.Screen name="volunteer" 
             options={{
-                title:'About',
+                title:'Volunteering',
+                tabBarIcon: ({color,focused}) => (
+                    <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
+                ),
+            }}
+            />
+            <Tabs.Screen name="donation"
+            options={{
+                title:'Donations',
                 tabBarIcon: ({color,focused}) => (
                     <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
                 ),
