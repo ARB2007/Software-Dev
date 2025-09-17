@@ -27,20 +27,29 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="volunteer"
         options={{
-          title: 'Donations',
+          title: 'Volunteering',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
+            <Ionicons name={focused ? 'fitness-outline' : 'fitness-sharp'} color={color} size={24}/>
           ),
         }}
       />
       <Tabs.Screen
-      name="volunteer"
+      name="cashdonation"
       options={{
-        title:'Volunteering',
+        title:'Cash Donations',
         tabBarIcon:({ color , focused}) => (
-            <Ionicons name = {focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24}/>
+            <Ionicons name = {focused ? 'cash-outline' : 'cash-sharp'} color={color} size={24}/>
+        ),
+      }}
+      />
+      <Tabs.Screen
+      name="itemdonation"
+      options={{
+        title:'Item Donations',
+        tabBarIcon:({ color , focused}) => (
+            <Ionicons name = {focused ? 'hand-right-outline' : 'hand-right-sharp'} color={color} size={24}/>
         ),
       }}
       />
