@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 
 export default function AboutScreen() {
   const notprofitSlug = "workinprogress";
-  const donateUrl = "workinprogress";
+  const donateUrl = "https://www.every.org/ward-2-mutual-aid#donate";
 
   const handlePressDonate = async () => {
     try{
