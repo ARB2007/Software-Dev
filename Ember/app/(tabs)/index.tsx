@@ -4,7 +4,7 @@ import {useFonts} from 'expo-font';
 export default function AboutScreen(){
     return(
         <View style={styles.container}>
-            <Text style = {styles.text}>Hello, welcome to Second Wind! My names Aidan, and im currently a Senior at
+            <Text style = {styles.text}>Hello, welcome to Second Wind! My name is Aidan, and im currently a Senior at
             Crescenta Valley High School in La Crescenta, California. As I grew up in California I always see housing 
             and homelessness at the top of News pages. Around the time I was in Elementary School my Dad volunteered 
             for a event to help the homeless. And what I can say is that after years of not seeing any change is that
