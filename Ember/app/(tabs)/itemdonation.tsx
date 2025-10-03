@@ -1,10 +1,17 @@
 import React, {useState} from "react";
 import {Text,View,StyleSheet,TextInput,Button,FlatList} from 'react-native';
-import { searchNonProfits } from "../api/orghunter";
+import { searchNonProfits } from "../API/orghunter";
+
+interface Nonprofit{
+  ein:string;
+  charityName:string;
+  city:string;
+  state:string;
+}
 
 export default function AboutScreen(){
     const [query,setQuery] = useState("");
-    const [results,setResults] = useState([]);
+    const [results,setResults] = useState<Nonprofit[]>([]);
 
     const handleSearch = async () => {
         const data = await searchNonProfits(query);
@@ -51,7 +58,7 @@ export default function AboutScreen(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:'#25292e',
+        backgroundColor:'#3A5A40',
         padding:20,
     },
     title:{
