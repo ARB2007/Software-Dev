@@ -14,12 +14,19 @@ export async function searchNonProfits(query: string): Promise<{ data: NonProfit
     const json = await response.json();
 
     if (json && json.data) {
-      return { data: json.data as NonProfit[] };
-    }
+      const nonProfits: NonProfit[] = json.data.map((item: any) => ({
+        ein: item.ein,
+        charityName: item.charityName || item.CHARITY_NAME,
+        city: item.city || item.CITY,
+        state: item.state || item.STATE,
+      }));
+      
+      return {data : nonProfits};
+}
 
-    return { data: [] };
+return {data:[]};
   } catch (error) {
-    console.error("Error fetching nonprofits:", error);
-    return { data: [] };
+    console.error("Error Fetching Nonprofits: ",error);
+    return {data:[]};
   }
 }

@@ -15,8 +15,15 @@ export default function AboutScreen(){
 
     const handleSearch = async () => {
         const data = await searchNonProfits(query);
+        console.log("API Response:",data);
         if(data && data.data){
             setResults(data?.data||[]);
+        }
+        else if(data && data.charities){
+          setResults(data.charities);
+        }
+        else if(Array.isArray(data)){
+          setResults(data);
         }
         else{
             setResults([]);
