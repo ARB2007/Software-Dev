@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Text,View,StyleSheet,TextInput,Button,FlatList} from 'react-native';
+import {Text,View,StyleSheet,TextInput,Button,FlatList,Modal,TouchableOpacity} from 'react-native';
 import { searchNonProfits } from "../API/orghunter";
 
 interface Nonprofit{
@@ -12,22 +12,19 @@ interface Nonprofit{
 export default function AboutScreen(){
     const [query,setQuery] = useState("");
     const [results,setResults] = useState<Nonprofit[]>([]);
+    const [selected, setSelected] = useState<Nonprofit | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleSearch = async () => {
-        const data = await searchNonProfits(query);
-        console.log("API Response:",data);
-        if(data && data.data){
-            setResults(data?.data||[]);
-        }
-        else if(data && data.charities){
-          setResults(data.charities);
-        }
-        else if(Array.isArray(data)){
-          setResults(data);
-        }
-        else{
-            setResults([]);
-        }
+      try{
+        const response = await searchNonProfits(query);
+        console.log("API Response:",response);
+       setResults(response.data);
+      }
+      catch(error){
+        console.error("Search failed:",error);
+        setResults([]);
+      }
     };
   return (
     <View style={styles.container}>
