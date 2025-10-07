@@ -26,12 +26,20 @@ export default function AboutScreen(){
         setResults([]);
       }
     };
+    const openDetails = (item : Nonprofit)=> {
+      setSelected(item);
+      setModalVisible(true);
+    };
+    const closeDetails = () => {
+      setModalVisible(false);
+      setSelected(null);
+    };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Item Donation Screen</Text>
 
-      {/* Search box */}
       <TextInput
+      // Search Box
         style={styles.input}
         placeholder="Search for a nonprofit..."
         placeholderTextColor="#aaa"
@@ -41,20 +49,36 @@ export default function AboutScreen(){
 
       <Button title="Search" onPress={handleSearch} />
 
-      {/* Results list */}
       <FlatList
+      //Result List
         data={results}
         keyExtractor={(item,index) => (item.ein ? item.ein.toString():index.toString())}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.name}>{item.charityName}</Text>
-            <Text style={styles.details}>
-              {item.city}, {item.state}
-            </Text>
-            <Text style={styles.details}>EIN: {item.ein}</Text>
-          </View>
+          <TouchableOpacity onPress={() => openDetails(item)}>
+            <View style={styles.card}>
+              <Text style = {styles.name}>{item.charityName}</Text>
+              <Text style={styles.details}>
+                {item.city},{item.state}
+              </Text>
+              <Text style = {styles.details}>EIN: {item.ein} </Text>
+            </View>
+          </TouchableOpacity>
         )}
       />
+      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeDetails}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            {selected && (
+              <>
+              <Text style = {styles.modalTitle}>{selected.charityName}</Text>
+              <Text style = {styles.modalText}>EIN:{selected.ein}</Text>
+              <Text style = {styles.modalText}> Location: {selected.city},{selected.state}</Text>
+              <Button title="Close" onPress={closeDetails}/>
+              </>
+            )}
+            </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -92,5 +116,26 @@ const styles = StyleSheet.create({
     },
     details:{
         color:"#aaa",
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.6)",
+      justifyContent: "center",
+      alignItems : "center",
+    },
+    modalContent : {
+      backgroundColor:"#fff",
+      padding: 20,
+      borderRadius: 10,
+      width:"80%",
+    },
+    modalTitle : {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginBottom: 10,
+    },
+    modalText: {
+      fontSize: 16,
+      marginBottom: 5,
     },
 });
