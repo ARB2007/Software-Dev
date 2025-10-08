@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/API/orghunter.ts"  ]
+, "app/API/everyorg.ts"  ]
 }

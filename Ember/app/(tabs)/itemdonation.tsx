@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Text,View,StyleSheet,TextInput,Button,FlatList,Modal,TouchableOpacity} from 'react-native';
-import { searchNonProfits } from "../API/orghunter";
+import { searchNonProfits } from "../API/everyorg";
 
 interface Nonprofit{
   ein:string;
@@ -19,7 +19,6 @@ export default function AboutScreen(){
       try{
         const response = await searchNonProfits(query);
         console.log("API Response:",response);
-       setResults(response.data);
       }
       catch(error){
         console.error("Search failed:",error);
