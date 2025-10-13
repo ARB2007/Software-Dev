@@ -12,7 +12,7 @@ export async function searchNonProfits(query: string): Promise<{ data: NonProfit
   };
   try {
     const response = await fetch(
-      `https://partners.every.org/api/v0.2/search/${encodeURIComponent(query)}`
+      `https://partners.every.org/v0.2/search/REDTERM?apiKey=pk_live_e9421b63a6289e5120a34d362325fec9`
     );
     const json = await response.json();
 

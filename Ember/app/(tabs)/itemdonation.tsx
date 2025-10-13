@@ -16,15 +16,15 @@ const [selected, setSelected] = useState<Nonprofit | null>(null);
 const [modalVisible, setModalVisible] = useState(false);
 
   const handleSearch = async (text: string) => {
-    setQuery(text);
-    console.log("Typing:",text);
-    if (text.length < 2) {
-      setResults([]);
-      return;
-    }
-    const response = await searchNonProfits(text);
-    console.log("API Response: ",response);
+    try {
+    if (!query.trim()) return;
+    const response = await searchNonProfits(query);
+    console.log("API Response:", response);
     setResults(response.data);
+    }catch (error) {
+    console.error("Search failed:", error);
+    setResults([]);
+    }
   };
 
   const openDetails = (item: Nonprofit) => {
@@ -45,7 +45,15 @@ const [modalVisible, setModalVisible] = useState(false);
         placeholder="Search for a nonprofit..."
         placeholderTextColor="#aaa"
         value={query}
-        onChangeText={handleSearch}
+        onChangeText={(text) => {
+          setQuery(text);
+          if(text.length > 2){
+            searchNonProfits(text).then((response)=>setResults(response.data));
+          }
+          else {
+            setResults([]);
+          }
+        }}
       />
       {results.length > 0 && (
         <FlatList
