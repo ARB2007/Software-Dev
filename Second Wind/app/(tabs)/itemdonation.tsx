@@ -17,11 +17,13 @@ const [modalVisible, setModalVisible] = useState(false);
 
   const handleSearch = async (text: string) => {
     setQuery(text);
+    console.log("Typing:",text);
     if (text.length < 2) {
       setResults([]);
       return;
     }
     const response = await searchNonProfits(text);
+    console.log("API Response: ",response);
     setResults(response.data);
   };
 
