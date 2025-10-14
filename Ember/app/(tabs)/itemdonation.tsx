@@ -110,11 +110,11 @@ const [modalVisible, setModalVisible] = useState(false);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3A5A40",
+    backgroundColor: "#00386B",
     padding: 20,
   },
   title: {
-    color: "#fff",
+    color: "#0AAFF3",
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
@@ -140,11 +140,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#555",
   },
   name: {
-    color: "#fff",
+    color: "#0AAFF3",
     fontWeight: "bold",
   },
   details: {
-    color: "#aaa",
+    color: "#0AAFF3",
   },
   modalOverlay: {
     flex: 1,
