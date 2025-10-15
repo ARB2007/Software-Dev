@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
     marginBottom:20,
   },
   button:{
-    backgroundColor:"#4CAF50",
+    backgroundColor:"#0AAFF3",
     paddingVertical:12,
     paddingHorizontal:20,
     borderRadius:5,
   },
   buttonText:{
-    color:"#fff",
+    color:"#FDD560",
     fontSize:16,
   }
 });
