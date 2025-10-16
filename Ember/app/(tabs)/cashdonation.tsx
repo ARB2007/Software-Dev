@@ -1,32 +1,108 @@
-import React from 'react';
-import { View, Text, StyleSheet,TouchableOpacity,Alert,Linking} from "react-native";
-import { Link } from 'expo-router';
+import React, { useState } from "react";
+import {Text,View,StyleSheet,TextInput,FlatList,TouchableOpacity,Modal,Button,Linking,} from "react-native";
+import { searchNonProfits } from "../API/everyorg";
 
+interface Nonprofit {
+  ein: string;
+  charityName: string;
+  city: string;
+  state: string;
+  slug: string;
+}
 export default function AboutScreen() {
-  const notprofitSlug = "workinprogress";
-  const donateUrl = "https://www.every.org/ward-2-mutual-aid#donate";
+const [query, setQuery] = useState("");
+const [results, setResults] = useState<Nonprofit[]>([]);
+const [selected, setSelected] = useState<Nonprofit | null>(null);
+const [modalVisible, setModalVisible] = useState(false);
 
-  const handlePressDonate = async () => {
-    try{
-      const supported = await Linking.canOpenURL(donateUrl);
-      if(supported){
-        await Linking.openURL(donateUrl);
-      }
-      else{
-        Alert.alert("Error","Cannot open URL");
-      }
-    }
-    catch(err){
-      console.error("Failed to open donate link:",err);
-      Alert.alert("Error","Failed to open donation link");
+  const handleSearch = async (text: string) => {
+    try {
+    if (!query.trim()) return;
+    const response = await searchNonProfits(query);
+    console.log("API Response:", response);
+    setResults(response.data);
+    }catch (error) {
+    console.error("Search failed:", error);
+    setResults([]);
     }
   };
+
+  const openDetails = (item: Nonprofit) => {
+    setSelected(item);
+    setModalVisible(true);
+  };
+
+  const closeDetails = () => {
+    setModalVisible(false);
+    setSelected(null);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Donation Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={handlePressDonate}>
-        <Text style={styles.buttonText}>Donate with Every.org</Text>
-      </TouchableOpacity>
+      <Text style={styles.title}>Search for Donation Pages</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Search for a nonprofit..."
+        placeholderTextColor="#aaa"
+        value={query}
+        onChangeText={(text) => {
+          setQuery(text);
+          if(text.length > 2){
+            searchNonProfits(text).then((response)=>setResults(response.data));
+          }
+          else {
+            setResults([]);
+          }
+        }}
+      />
+      {results.length > 0 && (
+        <FlatList
+          style={styles.dropdown}
+          data={results}
+          keyExtractor={(item, index) =>
+            item.ein ? item.ein.toString() : index.toString()
+          }
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => openDetails(item)}>
+              <View style={styles.dropdownItem}>
+                <Text style={styles.name}>{item.charityName}</Text>
+                <Text style={styles.details}>
+                  {item.city}, {item.state}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      )}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={closeDetails}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            {selected && (
+              <>
+                <Text style={styles.modalTitle}>{selected.charityName}</Text>
+                <Text style={styles.modalText}>EIN: {selected.ein}</Text>
+                <Text style={styles.modalText}>
+                  Location: {selected.city}, {selected.state}
+                </Text>
+                <Button
+                  title="Donate via Every.org"
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://www.every.org/${selected.slug}#donate`
+                    )
+                  }
+                />
+                <Button title="Close" onPress={closeDetails} />
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -35,22 +111,60 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#00386B",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 20,
   },
-  text: {
+  title: {
     color: "#fff",
-    fontSize:20,
-    marginBottom:20,
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
   },
-  button:{
-    backgroundColor:"#0AAFF3",
-    paddingVertical:12,
-    paddingHorizontal:20,
-    borderRadius:5,
+  input: {
+    borderWidth: 1,
+    borderColor: "#555",
+    borderRadius: 5,
+    padding: 10,
+    color: "#fff",
+    backgroundColor: "#333",
   },
-  buttonText:{
-    color:"#FDD560",
-    fontSize:16,
-  }
+  dropdown: {
+    marginTop: 5,
+    backgroundColor: "#444",
+    borderRadius: 5,
+    maxHeight: 300,
+  },
+  dropdownItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#555",
+  },
+  name: {
+    color: "#0AAFF3",
+    fontWeight: "bold",
+  },
+  details: {
+    color: "#0AAFF3",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
 });
