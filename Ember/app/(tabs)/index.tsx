@@ -10,7 +10,7 @@ export default function AboutScreen(){
             for a event to help the homeless. And what I can say is that after years of not seeing any change is that
             getting out of that state in life is very difficult. Thats where you guys step in. Second Wind aims to provide
             Volunteer Opportunities and access to donation pages. This not only helps combat homelessness but also gives 
-            students opportunities for community service hours, which looks very good for schools. Well thats it for me,
+            students opportunities for community service hours, which looks very good for College Applications. Well thats it for me,
             feel free to email me at aidanroebriesewitz@gmail.com for issues or concerns.
             </Text>
         </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     text:{
-        color:'#e6cc00',
+        color:'#0AAFF3',
         fontFamily:'Arial',
         fontSize:15,
     },
