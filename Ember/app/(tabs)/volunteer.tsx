@@ -1,21 +1,19 @@
-import {Text,View,StyleSheet} from 'react-native';
+import React from "react";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-export default function AboutScreen(){
-    return(
-        <View style={styles.container}>
-            <Text style = {styles.text}>Volunteer Screen</Text>
-        </View>
-    );
+const containerStyle = {
+  width: "100vw",
+  height: "100vh",
+};
+
+const center = { lat: 37.841157, lng: -122.551679 };
+
+export default function Volunteer() {
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyBpzfgckoo0yerlIRIaR5RxJGmiC69bstE">
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+        <Marker position={center} />
+      </GoogleMap>
+    </LoadScript>
+  );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor:'#00386B',
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    text:{
-        color:'#0AAFF3',
-    },
-});

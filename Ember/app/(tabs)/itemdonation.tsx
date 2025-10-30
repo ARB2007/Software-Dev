@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import {Text,View,StyleSheet,TextInput,FlatList,TouchableOpacity,Modal,Button,Linking,} from "react-native";
+import {Text,View,StyleSheet,TextInput,FlatList,TouchableOpacity,Modal,Button,Linking,Dimensions} from "react-native";
+import MapView, {Marker} from 'react-native-maps';
 import { searchNonProfits } from "../API/everyorg";
+import Volunteer from "./volunteer";
 
 interface Nonprofit {
   ein: string;
